@@ -22,6 +22,13 @@ namespace QAWebAutomationTests.Pages
             PasswordField.SendKeys(password);
             LoginButton.Click();
         }
+
+        public string GetErrorMessage()
+        {
+            var errorElement = driver.FindElement(By.CssSelector("h3[data-test='error']"));
+            return errorElement.Text;
+        }
+
     }
 
 }
