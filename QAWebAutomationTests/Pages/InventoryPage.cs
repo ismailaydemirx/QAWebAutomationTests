@@ -15,7 +15,7 @@ namespace QAWebAutomationTests.Pages
 
         public bool IsAt()
         {
-            return driver.Url.Contains("inventory");
+            return driver.Url.Contains("inventory.html");
         }
 
         public IList<IWebElement> GetProductItems()
@@ -25,7 +25,14 @@ namespace QAWebAutomationTests.Pages
 
         public bool AreProductsVisible()
         {
-            return GetProductItems().Any();
+            var products = driver.FindElements(By.ClassName("inventory_item"));
+            return products.Count > 0;
+        }
+
+        public void AddFirstProductToCart()
+        {
+            var addToCartButton = driver.FindElement(By.CssSelector(".inventory_item button"));
+            addToCartButton.Click();
         }
     }
 }

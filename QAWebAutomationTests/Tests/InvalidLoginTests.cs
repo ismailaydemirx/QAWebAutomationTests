@@ -1,25 +1,42 @@
 ﻿using QAWebAutomationTests.Pages;
 using QAWebAutomationTests.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NUnit.Framework;
 
 namespace QAWebAutomationTests.Tests
 {
-    public class InvalidLoginTests
+    [TestFixture]
+    public class InvalidLoginTests : TestBase
     {
+        public InvalidLoginTests()
+        {
+            shouldLogin = false; // Invalid login testi için otomatik login'i devre dışı bırak
+        }
+
         [Test]
         public void InvalidLoginTest()
         {
+            var test = ExtentManager.CreateTest("InvalidLoginTest");
+
             var loginPage = new LoginPage(Driver.Instance);
             loginPage.Login("invalid_user", "wrong_password");
 
-            // Hata mesajı görünüyor mu kontrol edelim
             var errorMessage = loginPage.GetErrorMessage();
-            Assert.IsTrue(errorMessage.Contains("Epic sadface"), "Hata mesajı bekleniyordu ama görünmedi.");
-        }
 
+            if(errorMessage.Contains("Epic sadface"))
+            {
+                string screenshotPath = ScreenshotHelper.CaptureScreenshot(Driver.Instance, "InvalidLoginTest_Pass");
+                test.Pass("Hata mesajı başarıyla görüntülendi.")
+                    .AddScreenCaptureFromPath(screenshotPath);
+            }
+            else
+            {
+                string screenshotPath = ScreenshotHelper.CaptureScreenshot(Driver.Instance, "InvalidLoginTest");
+               
+                test.Fail("Hata mesajı bekleniyordu ama görünmedi")
+                    .AddScreenCaptureFromPath(screenshotPath);
+            }
+
+            Assert.IsTrue(errorMessage.Contains("Epic sadface"));
+        }
     }
 }
