@@ -5,7 +5,6 @@ using QAWebAutomationTests.Utils;
 namespace QAWebAutomationTests.Tests
 {
 
-
     [TestFixture]
     public class LoginTests
     {

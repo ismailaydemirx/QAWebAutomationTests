@@ -29,6 +29,11 @@ namespace QAWebAutomationTests.Pages
             return errorElement.Text;
         }
 
+        public bool IsLoginSuccessful()
+        {
+            return driver.Url.Contains("inventory");
+        }
+
     }
 
 }
